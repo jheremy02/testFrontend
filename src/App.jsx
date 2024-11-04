@@ -1,15 +1,16 @@
 
-import { Navigate, Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useParams } from "react-router-dom";
 import Home from "./views/Home.jsx";
 import Detail from "./views/Detail.jsx";
 
 function App() {
 
+  const { id } = useParams();
 
   return (
       <Routes>
         <Route path="/"  element={ <Home/>} />
-        <Route path="/detail"  element={ <Detail></Detail>} />
+        <Route path="/detail/:id"  element={ <Detail></Detail>} />
       </Routes>
   )
 }
