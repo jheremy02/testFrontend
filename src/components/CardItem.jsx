@@ -1,25 +1,39 @@
 import React from 'react'
+import { Link, useNavigate } from 'react-router-dom'
 
-function CardItem({product}) {
+function CardItem({ product }) {
+    const navigate = useNavigate();
+
+    const goToProducDetail = () => {
+        // Redirige a la ruta con el ID del usuario
+        navigate(`/detail/${product.id}`);
+    };
+
     return (
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <div className="h-56 w-full">
-                <a href="#">
+                <a onClick={() => { }} >
+
+                </a>
+
+                <Link to={`/detail/${product.id}`}>
                     <img className="mx-auto h-full dark:hidden" src={product.imgUrl} alt="" />
                     <img className="mx-auto hidden h-full dark:block" src={product.imgUrl} alt="" />
-                </a>
+                </Link>
             </div>
             <div className="pt-6">
-                
 
-                <a href="#" className="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{product.model}</a>
+
+                <a onClick={() => {
+                    goToProducDetail()
+                }} className="text-lg font-semibold leading-tight text-gray-900 hover:underline dark:text-white">{product.model}</a>
 
                 <ul className=" flex items-center gap-4">
                     <li className="flex items-center gap-2">
                         <p className="text-base font-semibold text-gray-500 dark:text-gray-400">{product.brand}</p>
                     </li>
 
-                    
+
                 </ul>
 
                 <div className="mt-4 flex items-center justify-between gap-4">

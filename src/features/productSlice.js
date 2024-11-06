@@ -10,6 +10,7 @@ export const getProductsThunk = createAsyncThunk('product/productsThunk', async 
 
 const initialState = {
   products: [],
+  productsSelected:null,
   isLoading: false,
   success: true,
   error: false
@@ -19,6 +20,9 @@ const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
+    setProductSelected:(state,action)=>{
+      state.productsSelected=action.payload ;
+    }
 
   },
   extraReducers: (builder) => {

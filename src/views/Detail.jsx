@@ -1,10 +1,72 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import NavbarComponent from '../components/NavbarComponent'
 import Footer from '../components/Footer'
-import { Button, Card, Label, Select } from 'flowbite-react'
+import { Button, Card, Label, Select, Spinner } from 'flowbite-react'
 import { FaCartPlus } from "react-icons/fa";
+import { useParams } from 'react-router-dom';
+import { addToCartService, getProductByIdService } from '../components/services';
+import { toast } from 'react-toastify';
+import { Controller, useForm } from 'react-hook-form';
+import { addItemAction } from '../features/cartSlice';
+import { useDispatch } from 'react-redux';
 
 function Detail() {
+    const { id } = useParams();
+    const dispatch = useDispatch()
+    const [product, setProduct] = useState(null)
+    const [isLoading, setLoading] = useState(false);
+    const { register, control, setValue, reset, handleSubmit, watch, formState: { errors } } = useForm({
+        defaultValues: {
+            product: null
+        }
+    });
+    const [colors, setColors] = useState([])
+    const [storages, setStorages] = useState([])
+
+
+
+    async function manageAddToCart(data) {
+        try {
+            setLoading(true)
+            const { color, storage, product } = data
+            if (!product) {
+                throw new Error('Seleccione un producto')
+            }
+            const response = await addToCartService({
+                id: product.id,
+                colorCode: color,
+                storageCode: storage
+            })
+            dispatch(addItemAction({
+                id: product.id,
+                colorCode: color,
+                storageCode: storage
+            }))
+            toast.success('Producto agregado!')
+        } catch (error) {
+            toast.error(error.message)
+        } finally {
+            setLoading(false)
+        }
+    }
+
+
+    useEffect(() => {
+        (async () => {
+            try {
+                reset();
+                const response = await getProductByIdService(id);
+                setProduct(response)
+                setValue('product', response);
+                const { options } = response
+                setColors(options.colors)
+                setStorages(options.storages)
+            } catch (error) {
+                toast.error(error.message)
+            }
+        })()
+    }, [id])
+
     return (
         <div><NavbarComponent></NavbarComponent>
 
@@ -21,138 +83,132 @@ function Detail() {
                                     </div>
 
                                     <div className="mt-6 sm:mt-8 lg:mt-0">
-                                        <h1
-                                            className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
-                                        >
-                                            Apple iMac 24" All-In-One Computer, Apple M1, 8GB RAM, 256GB SSD,
-                                            Mac OS, Pink
-                                        </h1>
-                                        <div className="mt-4 sm:items-center sm:gap-4 sm:flex">
-                                            <p
-                                                className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white"
-                                            >
-                                                $1,249.99
-                                            </p>
+                                        <div className='grid grid-cols-2'>
+                                            <div>
+                                                <h1
+                                                    className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
+                                                >
+                                                    {product ? product.model : ''}
+                                                </h1>
+                                                <p className="text-xl font-semibold text-gray-500 dark:text-gray-400">{product?.brand || ''} </p>
+                                            </div>
 
-                                            <div className="flex items-center gap-2 mt-2 sm:mt-0">
-                                                <div className="flex items-center gap-1">
-                                                    <svg
-                                                        className="w-4 h-4 text-yellow-300"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="24"
-                                                        height="24"
-                                                        fill="currentColor"
-                                                        viewBox="0 0 24 24"
+                                            <div>
+                                                <div className="sm:items-center sm:gap-4 sm:flex">
+                                                    <p
+                                                        className="text-2xl font-extrabold text-gray-900 sm:text-3xl dark:text-white"
                                                     >
-                                                        <path
-                                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                                        />
-                                                    </svg>
-                                                    <svg
-                                                        className="w-4 h-4 text-yellow-300"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="24"
-                                                        height="24"
-                                                        fill="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                                        />
-                                                    </svg>
-                                                    <svg
-                                                        className="w-4 h-4 text-yellow-300"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="24"
-                                                        height="24"
-                                                        fill="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                                        />
-                                                    </svg>
-                                                    <svg
-                                                        className="w-4 h-4 text-yellow-300"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="24"
-                                                        height="24"
-                                                        fill="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                                        />
-                                                    </svg>
-                                                    <svg
-                                                        className="w-4 h-4 text-yellow-300"
-                                                        aria-hidden="true"
-                                                        xmlns="http://www.w3.org/2000/svg"
-                                                        width="24"
-                                                        height="24"
-                                                        fill="currentColor"
-                                                        viewBox="0 0 24 24"
-                                                    >
-                                                        <path
-                                                            d="M13.849 4.22c-.684-1.626-3.014-1.626-3.698 0L8.397 8.387l-4.552.361c-1.775.14-2.495 2.331-1.142 3.477l3.468 2.937-1.06 4.392c-.413 1.713 1.472 3.067 2.992 2.149L12 19.35l3.897 2.354c1.52.918 3.405-.436 2.992-2.15l-1.06-4.39 3.468-2.938c1.353-1.146.633-3.336-1.142-3.477l-4.552-.36-1.754-4.17Z"
-                                                        />
-                                                    </svg>
+                                                        ${product?.price || ''}
+                                                    </p>
+
+
                                                 </div>
-                                                <p
-                                                    className="text-sm font-medium leading-none text-gray-500 dark:text-gray-400"
-                                                >
-                                                    (5.0)
-                                                </p>
-                                                <a
-                                                    href="#"
-                                                    className="text-sm font-medium leading-none text-gray-900 underline hover:no-underline dark:text-white"
-                                                >
-                                                    345 Reviews
-                                                </a>
                                             </div>
                                         </div>
+
+
                                         <br></br>
 
-                                        <p className="mb-6 text-gray-500 dark:text-gray-400">
-                                            Studio quality three mic array for crystal clear calls and voice
-                                            recordings. Six-speaker sound system for a remarkably robust and
-                                            high-quality audio experience. Up to 256GB of ultrafast SSD storage.
-                                        </p>
+                                        <ul className="list-outside list-disc space-y-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white">Marca: </span>
+                                                {product ? product.brand : ''}
+                                            </li>
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> Modelo: </span>
+                                                {product ? product.model : ''}
+                                            </li>
+
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> Precio: </span>
+                                                ${product ? product.price : ''}
+                                            </li>
+
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> CPU: </span>
+                                                {product ? product.cpu : ''}
+                                            </li>
+
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> RAM: </span>
+                                                {product ? product.ram : ''}
+                                            </li>
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> Sistema Operativo: </span>
+                                                {product ? product.os : ''}
+                                            </li>
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> Resolución de Pantalla: </span>
+                                                {product ? product.displaySize : ''}
+                                            </li>
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> Batería: </span>
+                                                {product ? product.battery : ''}
+                                            </li>
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> Dimensiones: </span>
+                                                {product ? product.dimentions : ''}
+                                            </li>
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> Peso: </span>
+                                                {product ? product.weight : ''}
+                                            </li>
+                                        </ul>
                                         <hr className="my-6 md:my-8 border-gray-200 dark:border-gray-800" />
-                                        <div className='flex gap-4'>
+
+                                        <div className='grid gap-4 lg:grid-cols-4'>
                                             <div className="max-w-md">
                                                 <div className="mb-2 block">
                                                     <Label htmlFor="countries" value="Color" />
                                                 </div>
-                                                <Select id="countries" required>
-                                                    <option>United States</option>
-                                                    <option>Canada</option>
-                                                    <option>France</option>
-                                                    <option>Germany</option>
-                                                </Select>
+                                                <Controller
+                                                    control={control}
+                                                    rules={{ required: 'Este campo es requerido' }}
+                                                    defaultValue={''}
+                                                    name='color'
+                                                    render={({ field }) => {
+                                                        return <Select {...field} id="color" >
+                                                            <option value={''}>Seleccione</option>
+                                                            {colors.map((item) => {
+                                                                return <option key={item.code} value={item.code}>{item.name}</option>
+                                                            })}
+                                                        </Select>
+                                                    }}
+                                                />
+                                                {errors.color && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.color.message}</p>}
                                             </div>
                                             <div className="max-w-md">
                                                 <div className="mb-2 block">
-                                                    <Label htmlFor="countries" value="Almacenamiento" />
+                                                    <Label htmlFor="storage" value="Almacenamiento" />
                                                 </div>
-                                                <Select id="countries" required>
-                                                    <option>United States</option>
-                                                    <option>Canada</option>
-                                                    <option>France</option>
-                                                    <option>Germany</option>
-                                                </Select>
+                                                <Controller
+                                                    control={control}
+                                                    defaultValue={''}
+                                                    rules={{ required: 'Este campo es requerido' }}
+                                                    name='storage'
+                                                    render={({ field }) => {
+                                                        return <Select {...field} id="storage" >
+                                                            <option value={''}>Seleccione</option>
+                                                            {storages.map((item) => {
+                                                                return <option key={item.code} value={item.code}>{item.name}</option>
+                                                            })}
+                                                        </Select>
+                                                    }}
+                                                />
+                                                {errors.storage && <p className="mt-2 text-sm text-red-600 dark:text-red-500">{errors.storage.message}</p>}
+
                                             </div>
-                                            <div className='w-full'>
+                                            <div className='w-full col-span-2'>
                                                 <div className="mb-2 block">
                                                     <Label className='opacity-0' htmlFor="countries" value="Almacenamiento" />
                                                 </div>
-                                                <Button className='w-full' color="blue"><div className='flex gap-2 justify-center items-center'><FaCartPlus className='text-lg' />Agregar</div></Button>
+                                                <Button disabled={isLoading} onClick={() => {
+                                                    handleSubmit(manageAddToCart)()
+                                                }} className='w-full' color="blue">{isLoading ? <div><Spinner aria-label="Alternate spinner button example" size="sm" />
+                                                    <span className="pl-3">Cargando...</span></div> : <div className='flex gap-2 justify-center items-center'><FaCartPlus className='text-lg' />Agregar</div>}</Button>
                                             </div>
                                         </div>
+
 
 
 
