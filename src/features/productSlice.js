@@ -4,13 +4,15 @@ import { getProductsService } from '../components/services';
 export const getProductsThunk = createAsyncThunk('product/productsThunk', async (params) => {
   const response = await getProductsService(params);
   return response
-  
+
 })
 
 
 const initialState = {
   products: [],
-  productsSelected:null,
+  productSelected: null,
+  filteredProducts: [],
+  productsSelected: [],
   isLoading: false,
   success: true,
   error: false
@@ -20,8 +22,15 @@ const productSlice = createSlice({
   name: 'product',
   initialState,
   reducers: {
-    setProductSelected:(state,action)=>{
-      state.productsSelected=action.payload ;
+    setProductSelected: (state, action) => {
+      state.productsSelected = action.payload;
+    },
+    addProductSelectedAction: (state, action) => {
+      state.productsSelected = [...state.productsSelected, action.payload];
+    },
+
+    setFilteredProducts: (state, action) => {
+      state.filteredProducts = action.payload
     }
 
   },
@@ -49,6 +58,6 @@ const productSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-//export const { } = productSlice.actions
-
+export const { addProductSelectedAction,setFilteredProducts } = productSlice.actions
+export const productSelector = state => state.product
 export default productSlice.reducer

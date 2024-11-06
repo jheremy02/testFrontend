@@ -2,14 +2,23 @@ import React, { useEffect } from 'react'
 import InputSearcher from './InputSearcher'
 import CardItem from './CardItem'
 import { useDispatch, useSelector } from 'react-redux'
-import { getProductsThunk } from '../features/productSlice';
-import { productSelector } from '../features/cartSlice';
+import { getProductsThunk, productSelector, setFilteredProducts } from '../features/productSlice';
+
 
 function SectionItems() {
     const dispatch = useDispatch();
-    const { products } = useSelector(productSelector)
+    const { products, filteredProducts } = useSelector(productSelector);
+
     useEffect(() => {
-        dispatch(getProductsThunk())
+
+        if (products.length === 0) {
+            dispatch(getProductsThunk())
+        }
+
+    }, [products.length, dispatch])
+
+    useEffect(() => {
+        dispatch(setFilteredProducts(products))
     }, [])
 
     return (
@@ -26,7 +35,7 @@ function SectionItems() {
                 </div>
                 <div className="mb-4 grid gap-4 sm:grid-cols-2 md:mb-8 lg:grid-cols-3 xl:grid-cols-4">
 
-                    {products.map((item) => {
+                    {filteredProducts.map((item) => {
                         return <CardItem key={item.id} product={item}></CardItem>
                     })}
 

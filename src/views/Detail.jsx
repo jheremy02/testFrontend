@@ -8,11 +8,13 @@ import { addToCartService, getProductByIdService } from '../components/services'
 import { toast } from 'react-toastify';
 import { Controller, useForm } from 'react-hook-form';
 import { addItemAction } from '../features/cartSlice';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import { addProductSelectedAction, productSelector } from '../features/productSlice';
 
 function Detail() {
     const { id } = useParams();
     const dispatch = useDispatch()
+    const { productsSelected } = useSelector(productSelector)
     const [product, setProduct] = useState(null)
     const [isLoading, setLoading] = useState(false);
     const { register, control, setValue, reset, handleSubmit, watch, formState: { errors } } = useForm({
@@ -55,10 +57,20 @@ function Detail() {
         (async () => {
             try {
                 reset();
-                const response = await getProductByIdService(id);
-                setProduct(response)
-                setValue('product', response);
-                const { options } = response
+                let productSearched = null;
+                const found = productsSelected.find(item => item.id === id);
+
+                if (found) {
+                    productSearched = found
+                } else {
+                    const response = await getProductByIdService(id);
+                    productSearched = response
+                    dispatch(addProductSelectedAction(productSearched))
+                }
+
+                setProduct(productSearched)
+                setValue('product', productSearched);
+                const { options } = productSearched
                 setColors(options.colors)
                 setStorages(options.storages)
             } catch (error) {
