@@ -1,4 +1,4 @@
-import React from 'react'
+
 import { Link, useNavigate } from 'react-router-dom'
 
 function CardItem({ product }) {
@@ -17,8 +17,8 @@ function CardItem({ product }) {
                 </a>
 
                 <Link to={`/detail/${product.id}`}>
-                    <img className="mx-auto h-full dark:hidden" src={product.imgUrl} alt="" />
-                    <img className="mx-auto hidden h-full dark:block" src={product.imgUrl} alt="" />
+                    <img className="mx-auto rounded-md h-full dark:hidden" src={product.imgUrl} alt="" />
+                    <img className="mx-auto rounded-md hidden h-full dark:block" src={product.imgUrl} alt="" />
                 </Link>
             </div>
             <div className="pt-6">

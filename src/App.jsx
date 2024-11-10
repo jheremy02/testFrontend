@@ -1,5 +1,5 @@
 
-import { Navigate, Route, Routes, useParams } from "react-router-dom";
+import {  Route, Routes, } from "react-router-dom";
 import Home from "./views/Home.jsx";
 import Detail from "./views/Detail.jsx";
 import { useEffect } from "react";
@@ -8,7 +8,7 @@ import { themeUiSelector } from "./features/uiSlice.js";
 
 function App() {
 
-  const { id } = useParams();
+
   const themeUi = useSelector(themeUiSelector);
   useEffect(() => {
     if (themeUi === 'dark') {

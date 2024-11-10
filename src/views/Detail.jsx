@@ -1,15 +1,16 @@
-import React, { useEffect, useState } from 'react'
+import  { useEffect, useState } from 'react'
 import NavbarComponent from '../components/NavbarComponent'
 import Footer from '../components/Footer'
 import { Button, Card, Label, Select, Spinner } from 'flowbite-react'
 import { FaCartPlus } from "react-icons/fa";
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { addToCartService, getProductByIdService } from '../components/services';
 import { toast } from 'react-toastify';
 import { Controller, useForm } from 'react-hook-form';
 import { addItemAction } from '../features/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProductSelectedAction, productSelector } from '../features/productSlice';
+import { IoIosArrowBack } from 'react-icons/io';
 
 function Detail() {
     const { id } = useParams();
@@ -17,15 +18,14 @@ function Detail() {
     const { productsSelected } = useSelector(productSelector)
     const [product, setProduct] = useState(null)
     const [isLoading, setLoading] = useState(false);
-    const { register, control, setValue, reset, handleSubmit, watch, formState: { errors } } = useForm({
+    const navigate = useNavigate();
+    const {  control, setValue, reset, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             product: null
         }
     });
     const [colors, setColors] = useState([])
     const [storages, setStorages] = useState([])
-
-
 
     async function manageAddToCart(data) {
         try {
@@ -75,7 +75,7 @@ function Detail() {
                 setStorages(options.storages)
                 if (options.colors.length === 1) {
                     setValue('color', options.colors[0].code);
-                   
+
                 }
 
                 if (options.storages.length === 1) {
@@ -94,15 +94,18 @@ function Detail() {
             <div className='p-6 bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-8'>
                 <Card className="">
                     <div>
-                        <section className="py-8 bg-white md:py-16 dark:bg-gray-900 antialiased">
+                        <Button onClick={(e) => {
+                            navigate('/')
+                        }} color="light"><div className='flex justify-center items-center gap-2'><IoIosArrowBack className='font-bold' />Atrás</div></Button>
+                        <section className="py-8  antialiased">
                             <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
-                                <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
+                                <div className="lg:grid lg:grid-cols-3 lg:gap-8 xl:gap-16">
                                     <div className="shrink-0 max-w-md lg:max-w-lg mx-auto">
-                                        <img className="w-full dark:hidden" src={product?.imgUrl || ''} alt="" />
-                                        <img className="w-full hidden dark:block" src={product?.imgUrl || ''} alt="" />
+                                        <img className="w-full rounded-md dark:hidden" src={product?.imgUrl || ''} alt="" />
+                                        <img className="w-full rounded-md hidden dark:block" src={product?.imgUrl || ''} alt="" />
                                     </div>
 
-                                    <div className="mt-6 sm:mt-8 lg:mt-0">
+                                    <div className="mt-6 sm:mt-8 lg:mt-0 col-span-2">
                                         <div className='grid grid-cols-2'>
                                             <div>
                                                 <h1
@@ -129,7 +132,7 @@ function Detail() {
 
                                         <br></br>
 
-                                        <ul className="list-outside list-disc space-y-4 pl-4 text-base font-normal text-gray-500 dark:text-gray-400">
+                                        <ul className=" flex flex-wrap gap-x-10 gap-y-4 list-outside list-disc text-base font-normal text-gray-500 dark:text-gray-400">
                                             <li>
                                                 <span className="font-semibold text-gray-900 dark:text-white">Marca: </span>
                                                 {product ? product.brand : ''}

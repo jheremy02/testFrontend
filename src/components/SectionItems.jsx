@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import  { useEffect } from 'react'
 import InputSearcher from './InputSearcher'
 import CardItem from './CardItem'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,7 +19,7 @@ function SectionItems() {
 
     useEffect(() => {
         dispatch(setFilteredProducts(products))
-    }, [])
+    }, [products])
 
     return (
         <section className="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
