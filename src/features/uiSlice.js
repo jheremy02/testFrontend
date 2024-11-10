@@ -1,5 +1,5 @@
-import { createAsyncThunk, createSlice } from '@reduxjs/toolkit'
-import { getRolesService } from '../../components/roles/services'
+import { createSlice } from '@reduxjs/toolkit'
+
 
 const initialState = {
     theme: 'light'
@@ -15,10 +15,9 @@ export const uiSlice = createSlice({
         }
 
     },
-
 })
 
 // Action creators are generated for each case reducer function
 export const { setTheme} = uiSlice.actions
-
+export const themeUiSelector=state=>state.ui.theme
 export default uiSlice.reducer
