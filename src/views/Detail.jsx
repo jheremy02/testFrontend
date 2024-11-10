@@ -73,6 +73,14 @@ function Detail() {
                 const { options } = productSearched
                 setColors(options.colors)
                 setStorages(options.storages)
+                if (options.colors.length === 1) {
+                    setValue('color', options.colors[0].code);
+                   
+                }
+
+                if (options.storages.length === 1) {
+                    setValue('storage', options.storages[0].code);
+                }
             } catch (error) {
                 toast.error(error.message)
             }
@@ -90,8 +98,8 @@ function Detail() {
                             <div className="max-w-screen-xl px-4 mx-auto 2xl:px-0">
                                 <div className="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
                                     <div className="shrink-0 max-w-md lg:max-w-lg mx-auto">
-                                        <img className="w-full dark:hidden" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front.svg" alt="" />
-                                        <img className="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="" />
+                                        <img className="w-full dark:hidden" src={product?.imgUrl || ''} alt="" />
+                                        <img className="w-full hidden dark:block" src={product?.imgUrl || ''} alt="" />
                                     </div>
 
                                     <div className="mt-6 sm:mt-8 lg:mt-0">

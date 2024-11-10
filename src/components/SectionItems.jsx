@@ -40,6 +40,7 @@ function SectionItems() {
                     })}
 
                 </div>
+                {filteredProducts.length === 0 && <div className='w-full flex justify-center p-12'><p className="mb-3 text-lg text-gray-500 md:text-xl dark:text-gray-400">No se encontraron resultados.</p></div>}
 
             </div>
 
