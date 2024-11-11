@@ -177,6 +177,14 @@ function Detail() {
                                                 {product ? product.battery : ''}
                                             </li>
                                             <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> Cámara Primaria: </span>
+                                                {product ? (product.primaryCamera ? product.primaryCamera[0] : '') : ''}
+                                            </li>
+                                            <li>
+                                                <span className="font-semibold text-gray-900 dark:text-white"> Cámara Secundaria: </span>
+                                                {product ? (product.secondaryCmera ? product.secondaryCmera : '') : ''}
+                                            </li>
+                                            <li>
                                                 <span className="font-semibold text-gray-900 dark:text-white"> Dimensiones: </span>
                                                 {product ? product.dimentions : ''}
                                             </li>
