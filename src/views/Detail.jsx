@@ -178,11 +178,11 @@ function Detail() {
                                             </li>
                                             <li>
                                                 <span className="font-semibold text-gray-900 dark:text-white"> Cámara Primaria: </span>
-                                                {product ? (product.primaryCamera ? product.primaryCamera[0] : '') : ''}
+                                                {product ? (Array.isArray(product.primaryCamera) ? product.primaryCamera[0] : product.primaryCamera) : ''}
                                             </li>
                                             <li>
                                                 <span className="font-semibold text-gray-900 dark:text-white"> Cámara Secundaria: </span>
-                                                {product ? (product.secondaryCmera ? product.secondaryCmera : '') : ''}
+                                                {product ? (Array.isArray(product.secondaryCmera) ? product.secondaryCmera[0] : product.secondaryCmera) : ''}
                                             </li>
                                             <li>
                                                 <span className="font-semibold text-gray-900 dark:text-white"> Dimensiones: </span>
