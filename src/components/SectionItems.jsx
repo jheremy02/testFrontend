@@ -25,11 +25,11 @@ function SectionItems() {
         <section className="bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-12">
             <div className="mx-auto max-w-screen-xl px-4 2xl:px-0">
 
-                <div className="  justify-between space-y-4 sm:flex sm:space-y-0 md:mb-8">
+                <div className="flex md:flex-row flex-col gap-6 md:justify-between  sm:flex  mb-8">
                     <div>
-                        <h2 className=" text-xl font-semibold text-gray-900 dark:text-white sm:text-3xl">Productos</h2>
+                        <h2 className=" text-2xl font-semibold text-gray-900 dark:text-white sm:text-3xl">Productos</h2>
                     </div>
-                    <div className="flex">
+                    <div className="flex md:max-w-md">
                         <InputSearcher></InputSearcher>
                     </div>
                 </div>

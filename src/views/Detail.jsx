@@ -114,7 +114,7 @@ function Detail() {
                                     </div>
 
                                     <div className="mt-6 sm:mt-8 lg:mt-0 col-span-2">
-                                        <div className='grid grid-cols-2'>
+                                        <div className='flex gap-10'>
                                             <div>
                                                 <h1
                                                     className="text-xl font-semibold text-gray-900 sm:text-2xl dark:text-white"
