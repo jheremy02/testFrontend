@@ -10,13 +10,17 @@ Instalar dependencias
     npm install
 Desplegar en modo desarrollo
 
-    npm run START
+    npm run dev
 Compilar para produccion
 
-    npm run BUILD
-Lanzamiento de test
+    npm run build
+Lanzamiento de tests
 
-    npm run TEST
+    npm run test
 Comprobación de código
 
-    npm run LINT
+    npm run lint
+
+## Demo
+
+[https://test.jheysondev.com](https://test.jheysondev.com/)

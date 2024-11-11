@@ -19,6 +19,7 @@ function NavbarComponent() {
     const { products } = useSelector(productSelector);
     const dispatch = useDispatch();
     const themeUi = useSelector(themeUiSelector);
+    console.log(themeUi)
     useEffect(() => {
 
         let itemsFormatted = []
