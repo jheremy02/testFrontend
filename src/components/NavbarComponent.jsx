@@ -19,7 +19,7 @@ function NavbarComponent() {
     const { products } = useSelector(productSelector);
     const dispatch = useDispatch();
     const themeUi = useSelector(themeUiSelector);
-    console.log(themeUi)
+    
     useEffect(() => {
 
         let itemsFormatted = []
@@ -42,8 +42,8 @@ function NavbarComponent() {
                 <img src={logo} className="mr-3 h-6 sm:h-9" alt="React Logo" />
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Lutxo</span>
             </Navbar.Brand>
-            <div className="pl-10 flex-grow flex justify-between items-center">
-                <Breadcrumb aria-label="Default breadcrumb example">
+            <div className="pl-10 flex-grow flex justify-end sm:justify-between items-center">
+                <Breadcrumb aria-label="Default breadcrumb example" className='hidden sm:block'>
                     {pathname !== '/' ? <Breadcrumb.Item href={'#'} onClick={() => {
                         navigate('/')
                     }} icon={HiHome}>
@@ -54,7 +54,7 @@ function NavbarComponent() {
                     {pathname.includes('/detail') && <Breadcrumb.Item >Detalle</Breadcrumb.Item>}
 
                 </Breadcrumb>
-                <div className='flex gap-6'><ToggleModeUi defaultChecked={themeUi === 'dark' ? true : false} onChange={(e) => {
+                <div className='flex gap-6  '><ToggleModeUi defaultChecked={themeUi === 'dark' ? true : false} onChange={(e) => {
 
                     if (e.target.checked === true) {
                         dispatch(setTheme('dark'))
