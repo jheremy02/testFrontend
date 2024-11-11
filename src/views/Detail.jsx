@@ -132,7 +132,7 @@ function Detail() {
 
                                         <br></br>
 
-                                        <ul className=" flex flex-wrap gap-x-10 gap-y-4 list-outside list-disc text-base font-normal text-gray-500 dark:text-gray-400">
+                                        <ul className=" flex flex-wrap gap-x-12 gap-y-4 list-outside list-disc text-base font-normal text-gray-500 dark:text-gray-400">
                                             <li>
                                                 <span className="font-semibold text-gray-900 dark:text-white">Marca: </span>
                                                 {product ? product.brand : ''}

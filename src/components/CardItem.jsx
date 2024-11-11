@@ -6,20 +6,21 @@ function CardItem({ product }) {
 
     const goToProducDetail = () => {
         // Redirige a la ruta con el ID del usuario
+        console.log(`/detail/${product.id}`)
         navigate(`/detail/${product.id}`);
     };
 
     return (
         <div className="rounded-lg border border-gray-200 bg-white p-6 shadow-sm dark:border-gray-700 dark:bg-gray-800">
             <div className="h-56 w-full">
-                <a onClick={() => { }} >
-
+                <a>
+                    <Link to={`/detail/${product.id}`}>
+                        <img className="mx-auto rounded-md h-full dark:hidden" src={product.imgUrl} alt="Product Image" />
+                        <img className="mx-auto rounded-md hidden h-full dark:block" src={product.imgUrl} alt="Product Image" />
+                    </Link>
                 </a>
 
-                <Link to={`/detail/${product.id}`}>
-                    <img className="mx-auto rounded-md h-full dark:hidden" src={product.imgUrl} alt="" />
-                    <img className="mx-auto rounded-md hidden h-full dark:block" src={product.imgUrl} alt="" />
-                </Link>
+
             </div>
             <div className="pt-6">
 
@@ -39,7 +40,7 @@ function CardItem({ product }) {
                 <div className="mt-4 flex items-center justify-between gap-4">
                     <p className="text-2xl font-extrabold leading-tight text-gray-900 dark:text-white">S/. {product.price}</p>
 
-                    
+
                 </div>
             </div>
         </div>
