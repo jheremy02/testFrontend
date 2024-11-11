@@ -9,7 +9,7 @@ import ToggleModeUi from './utils/ToggleModeUi';
 import { useEffect, useState } from 'react';
 import { countElements } from '../utils/functions';
 import { productSelector } from '../features/productSlice';
-
+import logo from '../assets/logo.png'
 
 function NavbarComponent() {
     const { itemsSelected } = useSelector(cartSelector);
@@ -38,7 +38,7 @@ function NavbarComponent() {
             <Navbar.Brand className='cursor-pointer' onClick={() => {
                 navigate('/')
             }}>
-                <img src="https://flowbite-react.com/favicon.svg" className="mr-3 h-6 sm:h-9" alt="Flowbite React Logo" />
+                <img src={logo} className="mr-3 h-6 sm:h-9" alt="React Logo" />
                 <span className="self-center whitespace-nowrap text-xl font-semibold dark:text-white">Lutxo</span>
             </Navbar.Brand>
             <div className="pl-10 flex-grow flex justify-between items-center">
@@ -81,11 +81,9 @@ function NavbarComponent() {
                     </Dropdown>
                 </div>
 
-                <Navbar.Toggle />
+            
             </div>
-            <Navbar.Collapse>
-
-            </Navbar.Collapse>
+           
         </Navbar>
     )
 }

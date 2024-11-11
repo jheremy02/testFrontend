@@ -1,4 +1,4 @@
-import  { useEffect, useState } from 'react'
+import { useEffect, useState } from 'react'
 import NavbarComponent from '../components/NavbarComponent'
 import Footer from '../components/Footer'
 import { Button, Card, Label, Select, Spinner } from 'flowbite-react'
@@ -11,15 +11,18 @@ import { addItemAction } from '../features/cartSlice';
 import { useDispatch, useSelector } from 'react-redux';
 import { addProductSelectedAction, productSelector } from '../features/productSlice';
 import { IoIosArrowBack } from 'react-icons/io';
+import SkeletonItemDetail from '../components/SkeletonItemDetail';
 
 function Detail() {
     const { id } = useParams();
     const dispatch = useDispatch()
-    const { productsSelected } = useSelector(productSelector)
+    const { productsSelected } = useSelector(productSelector);
+
     const [product, setProduct] = useState(null)
     const [isLoading, setLoading] = useState(false);
+    const [loadingItem, setLoadingItem] = useState(false);
     const navigate = useNavigate();
-    const {  control, setValue, reset, handleSubmit, formState: { errors } } = useForm({
+    const { control, setValue, reset, handleSubmit, formState: { errors } } = useForm({
         defaultValues: {
             product: null
         }
@@ -57,6 +60,7 @@ function Detail() {
         (async () => {
             try {
                 reset();
+                setLoadingItem(true)
                 let productSearched = null;
                 const found = productsSelected.find(item => item.id === id);
 
@@ -82,18 +86,22 @@ function Detail() {
                     setValue('storage', options.storages[0].code);
                 }
             } catch (error) {
-                toast.error(error.message)
+                toast.error(error.message);
+                navigate('/')
+            } finally {
+                setLoadingItem(false)
             }
         })()
     }, [id])
 
     return (
-        <div><NavbarComponent></NavbarComponent>
+        <div className='min-h-screen bg-gray-50 dark:bg-gray-900  '><NavbarComponent></NavbarComponent>
 
 
-            <div className='p-6 bg-gray-50 py-8 antialiased dark:bg-gray-900 md:py-8'>
+            <div className='p-6  py-8 antialiased  md:py-8'>
                 <Card className="">
-                    <div>
+
+                    {loadingItem ? <SkeletonItemDetail></SkeletonItemDetail> : <div>
                         <Button onClick={(e) => {
                             navigate('/')
                         }} color="light"><div className='flex justify-center items-center gap-2'><IoIosArrowBack className='font-bold' />Atrás</div></Button>
@@ -239,7 +247,8 @@ function Detail() {
                                 </div>
                             </div>
                         </section>
-                    </div>
+                    </div>}
+
                 </Card>
             </div>
 

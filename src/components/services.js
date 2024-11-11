@@ -6,8 +6,14 @@ export async function getProductsService() {
 }
 
 export async function getProductByIdService(id) {
-    const response = await client.get('/api/product/' + id)
+    try {
+        const response = await client.get('/api/product/' + id)
     return response
+    } catch (error) {
+        const {data}=error
+        throw new Error(data?.message || 'Algo salio mal')
+    }
+    
 }
 
 export async function addToCartService(data) {
